@@ -38,6 +38,7 @@ void setupWiFi() {
 }
 
 void setup() {
+
   //Initialize serial and wait for port to open:
   Serial.begin(9600);
   while (!Serial) {
@@ -46,6 +47,20 @@ void setup() {
   setupWiFi();
   ThingSpeak.begin(wifiClient);
   carrier.begin();
+
+  // // Display text near each button
+  // displayButtonText("Button 1", 30, 70);
+  // displayButtonText("Button 2", 160, 70);
+  // displayButtonText("Button 3", 160, 150);
+  // displayButtonText("Button 4", 100, 200);
+  // displayButtonText("Button 5", 30, 150);
+}
+
+void displayButtonText(int text, int x, int y) {
+  carrier.display.setCursor(x, y);
+  carrier.display.setTextSize(2);
+  carrier.display.setTextColor(0xFFFF); // White color, you can change it as needed
+  carrier.display.print(text);
 }
 
 void loop() {
@@ -58,6 +73,29 @@ void loop() {
   ThingSpeak.setField(1, temperature);
   ThingSpeak.setField(2, humidity);
   ThingSpeak.setField(3, pressure);
+
+  carrier.display.fillScreen(0x0000);
+  // carrier.display.setTextColor(0x07FF);
+  // carrier.display.setTextSize(2);
+
+ // Display text near each button
+  displayButtonText(temperature, 30, 70);
+  displayButtonText(humidity, 160, 70);
+  displayButtonText(pressure, 160, 150);
+  displayButtonText(0, 100, 200);
+  displayButtonText(0, 30, 150);
+
+
+  
+  // //temp display
+  // carrier.display.setCursor(50, 50);
+  // carrier.display.print("temp: ");
+  // carrier.display.print(temperature);
+
+  // //temp display
+  // carrier.display.setCursor(50, 120);
+  // carrier.display.print("humidity: ");
+  // carrier.display.print(humidity);
 
   int x = ThingSpeak.writeFields(myChannelNumber, myWriteAPIKey);
    if(x == 200){

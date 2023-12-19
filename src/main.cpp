@@ -68,11 +68,23 @@ void setup() {
 
 }
 
-void displayButtonText(int text, int x, int y) {
+void displayButtonText(float text, int x, int y) {
   carrier.display.setCursor(x, y);
   carrier.display.setTextSize(2);
   carrier.display.setTextColor(0xFFFF); // White color, you can change it as needed
-  carrier.display.print(text);
+  carrier.display.print(text, 1);  // Display temperature with one decimal place
+  //carrier.display.print(text);
+}
+
+void displayTemperatureWithCelsius(float temperature, int x, int y) {
+  carrier.display.setCursor(x, y);
+  carrier.display.setTextSize(2);
+  carrier.display.setTextColor(0xFFFF); // White color, you can change it as needed
+  carrier.display.print(temperature, 1);  // Display temperature with one decimal place
+  carrier.display.setTextSize(0.2);
+  carrier.display.print("o"); // Display degree symbol
+  carrier.display.setTextSize(2);
+  carrier.display.print(F("C")); // Display the "C" for Celsius
 }
 
 void outsideWeather() {
@@ -144,7 +156,7 @@ void loop() {
   carrier.display.fillScreen(0x0000);
 
  // Display text near each button
-  displayButtonText(inTemperature, 30, 70);
+  displayTemperatureWithCelsius(inTemperature, 30, 70);
   displayButtonText(inHumidity, 160, 70);
   displayButtonText(inPressure, 160, 150);
   displayButtonText(0, 100, 200);

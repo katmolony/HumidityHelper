@@ -11,6 +11,7 @@ What will be needed
 - your OpenWeatherAPI (please enter in quotations "XXX")
 */
 
+
 #define SECRET_CH_ID 2369829			// replace 0000000 with your channel number
 #define SECRET_WRITE_APIKEY "75U1406FS2G9BFG8"   // replace XYZ with your channel write API Key
 #define INTERVAL 15000
@@ -21,4 +22,4 @@ What will be needed
 #define LAT 55.127950 			//enter latitute
 #define LONG -8.277470			//enter longitude
 
-#define WEATHER_API "6f31a0fd23d1415ef151dd57611408aa"
+#define WEATHER_API "6f31a0fd23d1415ef151dd57611408aa" //replace with your openWeatherAPI

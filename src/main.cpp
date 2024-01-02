@@ -117,6 +117,86 @@ void displayButtonText (const char *text, int x, int y) {
   // }
 }
 
+// Function to display special temperature information
+void displayTemperatureInfo(float inTemp, float outTemp) {
+  // Set the background color to blue
+  carrier.display.fillScreen(0x001F); // Blue color
+
+  // Display labels
+  carrier.display.setTextSize(2);
+  carrier.display.setTextColor(0xFFFF); // White color
+
+  // Label for title temperature
+  carrier.display.setCursor(80, 40);
+  carrier.display.print("Temperature");
+
+  // Display indoor temperature
+  carrier.display.setCursor(30, 70);
+  carrier.display.setTextSize(3);
+  carrier.display.setTextColor(0xFFFF); // White color
+  carrier.display.print(inTemp, 1);
+
+  // Display outdoor temperature
+  carrier.display.setCursor(30, 150);
+  carrier.display.setTextSize(3);
+  carrier.display.setTextColor(0xFFFF); // White color
+  carrier.display.print(outTemp, 1);
+
+  // Labels for indoor and outdoor
+  carrier.display.setTextSize(2);
+  carrier.display.setCursor(150, 75);
+  carrier.display.print("Indoor");
+
+  carrier.display.setCursor(150, 155);
+  carrier.display.print("Outdoor");
+
+  // Display for a short duration (e.g., 5 seconds)
+  delay(5000);
+
+  // Clear the screen and return to the normal loop
+  carrier.display.fillScreen(0x0000);
+}
+
+// Function to display special humidity information
+void displayHumidityInfo(float inHumidity, float outHumidity) {
+  // Set the background color to green
+  carrier.display.fillScreen(0350); // Green color
+
+  // Display labels
+  carrier.display.setTextSize(2);
+  carrier.display.setTextColor(0xFFFF); // White color
+
+  // Label for title humidity
+  carrier.display.setCursor(80, 40);
+  carrier.display.print("Humidity");
+
+  // Display indoor humidity
+  carrier.display.setCursor(30, 70);
+  carrier.display.setTextSize(3);
+  carrier.display.setTextColor(0xFFFF); // White color
+  carrier.display.print(inHumidity, 1);
+
+  // Display outdoor humidity
+  carrier.display.setCursor(30, 150);
+  carrier.display.setTextSize(3);
+  carrier.display.setTextColor(0xFFFF); // White color
+  carrier.display.print(outHumidity, 1);
+
+  // Labels for indoor and outdoor
+  carrier.display.setTextSize(2);
+  carrier.display.setCursor(150, 75);
+  carrier.display.print("Indoor");
+
+  carrier.display.setCursor(150, 155);
+  carrier.display.print("Outdoor");
+
+  // Display for a short duration (e.g., 5 seconds)
+  delay(5000);
+
+  // Clear the screen and return to the normal loop
+  carrier.display.fillScreen(0x0000);
+}
+
 // this function uses openWeatherAPI to get readings of the outside weather
 void outsideWeather() {
   // Construct the URL with variables
@@ -215,6 +295,9 @@ void loop() {
     buttonStartTime = millis();
     deviceStatus = 1; // turn device on
     ThingSpeak.setField(7, deviceStatus); // send to think speak
+
+    wifiClient.println("ON");
+    
     if (deviceStatus == 1) {
       strcpy(devicePower, "ON"); //change display text
     }
@@ -223,17 +306,15 @@ void loop() {
     Serial.println("Button MADE NOISE");
 
       // Check if 2 minutes have passed, to turn off device
-  if (deviceStatus == 1 && millis() - buttonStartTime >= buttonDuration) {
-    deviceStatus = 0;  // Reset the variable after 2 minutes
-    ThingSpeak.setField(7, deviceStatus);
-    if (deviceStatus == 0) {
-      strcpy(devicePower, "OFF"); //change display text back to off
-    }
-    Serial.println("2 minutes passed. Device OFF");
-  }
-
-
-  }
+      if (deviceStatus == 1 && millis() - buttonStartTime >= buttonDuration) {
+        deviceStatus = 0;  // Reset the variable after 2 minutes
+        ThingSpeak.setField(7, deviceStatus);
+        if (deviceStatus == 0) {
+          strcpy(devicePower, "OFF"); //change display text back to off
+          }
+        Serial.println("2 minutes passed. Device OFF");
+        }
+      }
   
 
 
@@ -243,6 +324,19 @@ void loop() {
       carrier.Buzzer.noSound(); //Turn off the buzzer before it drives everbody mad.
       delay(15000);
     }
+
+      // Checks if button 4 is touched
+  if (carrier.Buttons.onTouchDown(TOUCH4)) {
+    // Call the function to display temperature info
+    displayTemperatureInfo(inTemperature, outTemperature);
+  }
+
+        // Checks if button 0 is touched
+  if (carrier.Buttons.onTouchDown(TOUCH0)) {
+    // Call the function to display temperature info
+    displayHumidityInfo(inHumidity, outHumidity);
+  }
+
 
   delay(INTERVAL);
 

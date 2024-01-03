@@ -7,7 +7,6 @@
 
 #include <ArduinoHttpClient.h>
 #include <ArduinoJson.h>
-kate
 
 unsigned long myChannelNumber = SECRET_CH_ID;   // ThinkSpeak Channel
 const char *myWriteAPIKey = SECRET_WRITE_APIKEY;    //ThinkSpeak API

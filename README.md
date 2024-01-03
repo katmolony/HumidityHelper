@@ -1,8 +1,11 @@
 ![Helper Image](<Humidity Helper.png>)
 
-** Humidity Helper **
+## Humidity Helper ##
 
 Welcome to your new humidity helper device!
+
+For instuctions on use please download our instalation guide : 
+https://docs.google.com/document/d/1H4Slc-Y3BaQlKVY3GrJfFp_BkRmDiLdA/edit?usp=drive_link&ouid=103513424034285080260&rtpof=true&sd=true 
 
 Maintaining an optimal level of humidity inside a home is essential for the well-being of both the occupants and the structure of the building. Here are the risks associated with both too high and too low humidity:
 
@@ -38,7 +41,3 @@ You device can:
 - upload these readings to be analysed
 - assess when is the best time to activate humidity devices
 - gives accesses to other forms of analysis
-
-
-For instuctions on use please download our instalation guide : https://docs.google.com/document/d/1H4Slc-Y3BaQlKVY3GrJfFp_BkRmDiLdA/edit?usp=drive_link&ouid=103513424034285080260&rtpof=true&sd=true 
-

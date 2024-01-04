@@ -127,7 +127,7 @@ void displayTemperatureInfo(float inTemp, float outTemp) {
   carrier.display.setTextColor(0xFFFF); // White color
 
   // Label for title temperature
-  carrier.display.setCursor(80, 40);
+  carrier.display.setCursor(60, 40);
   carrier.display.print("Temperature");
 
   // Display indoor temperature
@@ -167,7 +167,7 @@ void displayHumidityInfo(float inHumidity, float outHumidity) {
   carrier.display.setTextColor(0xFFFF); // White color
 
   // Label for title humidity
-  carrier.display.setCursor(80, 40);
+  carrier.display.setCursor(70, 40);
   carrier.display.print("Humidity");
 
   // Display indoor humidity

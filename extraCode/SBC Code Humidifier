@@ -1,0 +1,50 @@
+//SBC Code For turning on Humidifier
+
+//PLEASE REPLACE WITH ThinkSpeak URL API
+var url = "https://api.thingspeak.com/channels/2369829/fields/7.json?api_key=2FTPXQ61Y5D1WLTM&results=2";
+var http;
+var currentDeviceState = 0;
+
+function setup() {
+  pinMode(0, OUTPUT);
+  pinMode(1, OUTPUT);
+  pinMode(2, OUTPUT);
+  
+  http = new RealHTTPClient();
+
+  // when receiving data
+  http.onDone = function(status, data) {
+    Serial.println("Data received");
+    
+    // Parse the JSON data
+    var jsonData = JSON.parse(data);
+    var feeds = jsonData.feeds;
+
+    // Check the latest entry in "field7"
+    var latestEntry = feeds[feeds.length - 1];
+    var field7Value = latestEntry.field7;
+
+    // Print "on" or "off" based on the value of "field7"
+    if (field7Value === "1") {
+      Serial.println("Device is on");
+      customWrite(0, 1);
+      digitalWrite(1, HIGH);
+      analogWrite(2,1000);
+    } else if (field7Value === "0") {
+      Serial.println("Device is off");
+      customWrite(0, 0);
+      digitalWrite(1, LOW);
+    } else {
+      Serial.println("Invalid value for field7");
+    }
+  };
+
+  // Make an initial API request
+  http.get(url);
+}
+
+function loop() {
+  // Make an API request every loop iteration
+  http.get(url);
+  delay(10000); // Wait for 10 seconds before the next check
+}

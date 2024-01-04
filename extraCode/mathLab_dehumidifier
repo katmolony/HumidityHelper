@@ -1,0 +1,82 @@
+%MathLab Code to
+%TurnOn_Dehumidifier
+
+% Read variables from ThinkSpeak Channel to see whether to turn on dehumidifier
+
+% Replace the [] with channel ID to read data from: 
+% Channel ID to read data from 
+readChannelID = 2369829; 
+
+% Channel Read API Key 
+readAPIKey = '2FTPXQ61Y5D1WLTM'; 
+
+
+% Replace the [] with channel ID to write data to: 
+writeChannelID = 2392943; 
+% Enter the Write API Key between the '' below: 
+writeAPIKey = '8I99WVD6CH9CJIX7'; 
+
+% Humidity Field ID 
+inTempField = 1; 
+outTempField = 4;
+
+% Humidity Field ID 
+inHumidityField = 2; 
+outHumidityField = 5;
+
+timeInterval = 360;
+
+% Get humidity data for the last 60 minutes from the ThingSpeak channel
+inTemp = thingSpeakRead(readChannelID,'Fields',inTempField,'NumMinutes',timeInterval,'ReadKey',readAPIKey); 
+outTemp = thingSpeakRead(readChannelID,'Fields',outTempField,'NumMinutes',timeInterval,'ReadKey',readAPIKey); 
+
+inHumidity = thingSpeakRead(readChannelID,'Fields',inHumidityField,'NumMinutes',timeInterval,'ReadKey',readAPIKey); 
+outHumidity = thingSpeakRead(readChannelID,'Fields',outHumidityField,'NumMinutes',timeInterval,'ReadKey',readAPIKey); 
+
+% Calculate the average  
+avgInTemp = mean(inTemp); 
+display(avgInTemp,'Average in Temp'); 
+
+avgOutTemp = mean(outTemp); 
+display(avgOutTemp,'Average out Temp'); 
+
+avgInHumidity = mean(inHumidity); 
+display(avgInHumidity,'Average in Humidity'); 
+
+avgOutHumidity = mean(outHumidity); 
+display(avgOutHumidity,'Average out Humidity'); 
+
+% Sample indoor and outdoor temperature and humidity readings
+indoorTemperature = avgInTemp; % in degrees Celsius
+outdoorTemperature = avgOutTemp; % in degrees Celsius
+indoorHumidity = avgInHumidity; % in percentage
+outdoorHumidity = avgOutHumidity;
+
+% Calculate dew point for indoor and outdoor conditions
+indoorDewPoint = calculateDewPoint(indoorTemperature, indoorHumidity);
+outdoorDewPoint = calculateDewPoint(outdoorTemperature, outdoorHumidity);
+
+% Define threshold values for dehumidifier activation
+highHumidityThreshold = 70; % in percentage (example value)
+highDewPointThreshold = 18; % in degrees Celsius (example value)
+
+% Check for conditions that may warrant turning on a dehumidifier
+if indoorHumidity > highHumidityThreshold || indoorDewPoint > highDewPointThreshold
+    fprintf('Indoor humidity or dew point is high. Consider turning on a dehumidifier.\n');
+    dehumidifier = 1;
+    thingSpeakWrite(writeChannelID,'Fields',2,'Values',dehumidifier,'WriteKey',writeAPIKey);
+else
+    fprintf('Indoor humidity and dew point are okay. No dehumidifier needed.\n')
+    dehumidifier = 0;
+    thingSpeakWrite(writeChannelID,'Fields',2,'Values',dehumidifier,'WriteKey',writeAPIKey);
+end
+
+% Function to calculate dew point
+function dewPoint = calculateDewPoint(temperature, humidity)
+    % Implement the dew point calculation based on your chosen formula
+    % For example, you can use the Magnus formula
+    % Dew point calculation code goes here
+    
+    % Replace the following line with the actual dew point calculation
+    dewPoint = temperature - (100 - humidity) / 5;
+end

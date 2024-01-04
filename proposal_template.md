@@ -1,4 +1,4 @@
-# Project Name
+# Humidity Helper
 #### Student Name: Kate Molony   Student ID: 20104127
 
 Welcome to your new humidity helper device!
